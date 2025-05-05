@@ -27,13 +27,12 @@ class Neo4jApp:
     def close(self):
         self.driver.close()
 
-    def ejecutar_consulta(self, consulta):
+    def execute_query(self, query):
         with self.driver.session() as session:
-            resultado = session.run(consulta)
-            for registro in resultado:
-                print(registro)
+            result = session.run(query)
+            for register in result:
+                print(register)
 
-if __name__ == "__main__":
-    app = Neo4jApp(URI, USER, PASSWORD)
-    app.ejecutar_consulta("MATCH (n) RETURN n LIMIT 5")
-    app.close()
+app = Neo4jApp(URI, USER, PASSWORD)
+app.execute_query("MATCH (n) RETURN n LIMIT 5")
+app.close()
