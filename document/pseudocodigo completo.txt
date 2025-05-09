@@ -1,0 +1,84 @@
+FUNCIÓN registrarUsuario
+    Mostrar mensaje: "Ingrese su nombre"
+    Leer nombre
+
+    Mostrar mensaje: "Ingrese su contraseña"
+    Leer contraseña
+
+    Mostrar mensaje: "Seleccione su estilo preferido:"
+    Lista de estilos = ["Clásico", "Bohemio", "Deportivo", "Elegante", "Gótico", 
+                        "Hipster", "Minimalista", "Romántico", "Vintage", "Streetwear"]
+    Mostrar lista de estilos y permitir al usuario elegir uno
+    Leer estiloSeleccionado
+
+    Guardar en la base de datos: nombre, contraseña, estiloSeleccionado
+
+    Mostrar mensaje: "¡Registro exitoso!"
+FIN FUNCIÓN
+
+FUNCIÓN iniciarSesion
+    Mostrar mensaje: "Ingrese su nombre"
+    Leer nombre
+
+    Mostrar mensaje: "Ingrese su contraseña"
+    Leer contraseña
+
+    usuario = Verificar en la base de datos si el nombre y contraseña son correctos
+
+    SI usuario no existe ENTONCES
+        Mostrar mensaje: "Credenciales incorrectas"
+        Salir de la función
+    FIN SI
+
+    estiloUsuario = Obtener estilo guardado del usuario
+
+    Mostrar mensaje: "¡Bienvenido, [nombre]! (Estilo: [estiloUsuario])"
+
+    Mostrar opciones de ocasión: ["Trabajo", "Universidad", "Fiesta", "Cita", "Ejercicio", "Informal"]
+    Leer ocasionSeleccionada
+
+    climaActual = Consultar API del clima (ej: temperatura, condición)
+
+    outfitSugerido = generarRecomendacion(estiloUsuario, ocasionSeleccionada, climaActual)
+
+    mostrarOutfit(outfitSugerido)
+FIN FUNCIÓN
+
+FUNCIÓN generarRecomendacion(estilo, ocasion, clima)
+    Crear consulta para buscar en la base de datos prendas que:
+        - Coincidan con el estilo del usuario
+        - Sean apropiadas para la ocasión seleccionada
+        - Sean adecuadas para el clima actual (temperatura y condición)
+
+    Ejecutar la consulta con los datos actuales del usuario
+
+    SI no se encontraron resultados ENTONCES
+        Ejecutar una segunda consulta con menos criterios (por ejemplo, solo estilo y clima)
+    FIN SI
+
+    Crear un objeto outfit con:
+        - Camisa seleccionada
+        - Pantalón seleccionado
+        - Calzado seleccionado
+        - Accesorio seleccionado
+        - Mensaje con el clima actual
+        - Estilo del usuario
+        - Ocasión seleccionada
+
+    Devolver outfit
+FIN FUNCIÓN
+
+FUNCIÓN mostrarOutfit(outfit)
+    Mostrar "=== RECOMENDACIÓN DE OUTFIT ==="
+    Mostrar "Clima: " + outfit.mensajeClima
+    Mostrar "Estilo: " + outfit.estilo
+    Mostrar "Ocasión: " + outfit.ocasion
+    Mostrar ""
+    Mostrar "Camisa: " + outfit.camisa.nombre
+    Mostrar "Pantalón: " + outfit.pantalon.nombre
+    Mostrar "Calzado: " + outfit.calzado.nombre
+    Mostrar "Accesorio: " + outfit.accesorio.nombre
+    Mostrar "==============================="
+
+    (Opcional) Mostrar imágenes de las prendas, si están disponibles
+FIN FUNCIÓN
