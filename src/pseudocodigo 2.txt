@@ -1,0 +1,27 @@
+FUNCIÓN iniciarSesion
+    Mostrar mensaje: "Ingrese su nombre"
+    Leer nombre
+
+    Mostrar mensaje: "Ingrese su contraseña"
+    Leer contraseña
+
+    usuario = Verificar en la base de datos si el nombre y contraseña son correctos
+
+    SI usuario no existe ENTONCES
+        Mostrar mensaje: "Credenciales incorrectas"
+        Salir de la función
+    FIN SI
+
+    estiloUsuario = Obtener estilo guardado del usuario
+
+    Mostrar mensaje: "¡Bienvenido, [nombre]! (Estilo: [estiloUsuario])"
+
+    Mostrar opciones de ocasión: ["Trabajo", "Universidad", "Fiesta", "Cita", "Ejercicio", "Informal"]
+    Leer ocasionSeleccionada
+
+    climaActual = Consultar API del clima (ej: temperatura, condición)
+
+    outfitSugerido = generarRecomendacion(estiloUsuario, ocasionSeleccionada, climaActual)
+
+    mostrarOutfit(outfitSugerido)
+FIN FUNCIÓN
