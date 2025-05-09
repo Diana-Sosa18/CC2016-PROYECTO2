@@ -11,7 +11,6 @@ USER = os.getenv("NEO4J_USER")
 PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 class Neo4jApp:
-
     def __init__(self, uri, user, password):
         try:
             self.driver = GraphDatabase.driver(uri, auth=basic_auth(user, password))
@@ -30,9 +29,4 @@ class Neo4jApp:
     def execute_query(self, query):
         with self.driver.session() as session:
             result = session.run(query)
-            for register in result:
-                print(register)
-
-app = Neo4jApp(URI, USER, PASSWORD)
-app.execute_query("MATCH (n) RETURN n LIMIT 5")
-app.close()
+            return result.data()
