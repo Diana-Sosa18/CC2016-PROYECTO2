@@ -68,6 +68,55 @@ FUNCIÓN generarRecomendacion(estilo, ocasion, clima)
     Devolver outfit
 FIN FUNCIÓN
 
+FUNCIÓN floydWarshall(matriz, N)
+Crear matrizDistancias[N][N]
+Crear matrizRutas[N][N]
+PARA i = 0 HASTA N-1  
+    PARA j = 0 HASTA N-1  
+        matrizDistancias[i][j] = matriz[i][j]  
+        SI i ≠ j Y matriz[i][j] ≠ ∞ ENTONCES  
+            matrizRutas[i][j] = j  
+        SINO  
+            matrizRutas[i][j] = -1  
+        FIN SI  
+    FIN PARA  
+FIN PARA  
+
+PARA k = 0 HASTA N-1  
+    PARA i = 0 HASTA N-1  
+        PARA j = 0 HASTA N-1  
+            SI matrizDistancias[i][k] + matrizDistancias[k][j] < matrizDistancias[i][j] ENTONCES  
+                matrizDistancias[i][j] = matrizDistancias[i][k] + matrizDistancias[k][j]  
+                matrizRutas[i][j] = matrizRutas[i][k]  
+            FIN SI  
+        FIN PARA  
+    FIN PARA  
+FIN PARA  
+
+DEVOLVER matrizDistancias, matrizRutas  
+FIN FUNCIÓN
+
+FUNCIÓN encontrarCaminoMasCompatible(distancias, prendas)
+mejorScore = ∞
+mejorCombinación = []
+PARA i = 0 HASTA N-1  
+    PARA j = 0 HASTA N-1  
+        PARA k = 0 HASTA N-1  
+            SI i ≠ j Y j ≠ k Y i ≠ k ENTONCES  
+                score = distancias[i][j] + distancias[j][k]  
+                SI score < mejorScore ENTONCES  
+                    mejorScore = score  
+                    mejorCombinación = [prendas[i], prendas[j], prendas[k]]  
+                FIN SI  
+            FIN SI  
+        FIN PARA  
+    FIN PARA  
+FIN PARA  
+
+DEVOLVER mejorCombinación  
+FIN FUNCIÓN
+
+
 FUNCIÓN mostrarOutfit(outfit)
     Mostrar "=== RECOMENDACIÓN DE OUTFIT ==="
     Mostrar "Clima: " + outfit.mensajeClima
