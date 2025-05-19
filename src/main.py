@@ -38,7 +38,6 @@ def main():
                     
                 else:
                     print("\nCredenciales incorrectas")
-                input("\nPresione Enter para continuar...")
             
             elif option == "3":
                 print("\n¡Hasta pronto!")
@@ -46,7 +45,6 @@ def main():
             
             else:
                 print("\nOpcion no válida")
-                input("Presione Enter para continuar...")
     
     finally:
         manager.close()
