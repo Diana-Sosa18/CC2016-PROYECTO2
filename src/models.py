@@ -1,7 +1,7 @@
 import re
 import bcrypt
 from datetime import datetime
-from neo4j_conexion import Neo4jApp, URI, USER, PASSWORD
+from db_connection import Neo4jApp, URI, USER, PASSWORD
 
 class UserManager:
     def __init__(self):

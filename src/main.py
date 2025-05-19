@@ -51,5 +51,4 @@ def main():
     finally:
         manager.close()
 
-if __name__ == "__main__":
-    main()
+main()
