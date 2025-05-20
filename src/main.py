@@ -29,16 +29,15 @@ def main():
                     input("\nPresione Enter para continuar...")
             
             elif option == "2":
-                print("\n--- Inicio de sesion ---")
+                print("\n--- Inicio de sesión ---")
                 username = input("Usuario: ").strip()
                 password = input("Contraseña: ").strip()
                 
                 if manager.login(username, password):
-                    print(f"\n¡Bienvenido {username}!")
+                    print(f"\n¡Bienvenid@ {username}!")
                     
                 else:
                     print("\nCredenciales incorrectas")
-                input("\nPresione Enter para continuar...")
             
             elif option == "3":
                 print("\n¡Hasta pronto!")
