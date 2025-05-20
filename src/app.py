@@ -1,4 +1,5 @@
-from flask import Flask, render_template, requests, request
+from flask import Flask, render_template, request
+import requests
 
 app = Flask(__name__)
 
@@ -8,14 +9,15 @@ def index():
 
 @app.route("/get_weather")
 def get_weather():
-    latitude = request.args.get("latitude")
-    longitude = request.args.get("longitude")
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
 
     # Usamos latitud y longitud para hacer la consulta
-    if latitude and longitude:
-        url = f"http://wttr.in/{latitude},{longitude}?format=3"
+    if lat and lon:
+        url = f"http://wttr.in/{lat},{lon}?format=%c+%C,+%t,+Precipitación:+%p,+Sensación:+%f"
         response = requests.get(url)
         if response.status_code == 200:
+            print("✅ Clima desde wttr.in:", response.text)
             return response.text
         else:
             return "❌ No se pudo obtener el clima para las coordenadas brindadas."
