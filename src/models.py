@@ -204,4 +204,4 @@ class UserManager:
         return False
     
     def close(self):
-        self.app.close()
+        self.app.close() 
