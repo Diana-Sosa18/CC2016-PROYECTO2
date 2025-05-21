@@ -57,15 +57,13 @@ def main():
                 print(f"\n{message}")
             
             elif option == "2":
-                print("\n" + "="*40)
-                print("🔑 INICIO DE SESIÓN")
-                print("="*40)
-                username = input("\nUsuario: ").strip()
+                print("\n--- Inicio de sesión ---")
+                username = input("Usuario: ").strip()
                 password = input("Contraseña: ").strip()
                 
                 if manager.login(username, password):
-                    print(f"\n✨ ¡Bienvenid@, {username}!")
-                    user_menu(manager, username)
+                    print(f"\n¡Bienvenid@ {username}!")
+                    
                 else:
                     print("\nCredenciales incorrectas")
             
@@ -75,8 +73,10 @@ def main():
             
             else:
                 print("\nOpcion no válida")
+                input("Presione Enter para continuar...")
     
     finally:
         manager.close()
 
-main()
+if __name__ == "__main__":
+    main()

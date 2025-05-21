@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clima Actual</title>
+</head>
+<body>
+    <h1>🌦️ Clima en tu ubicación</h1>
+    <p id="weather">Obteniendo ubicación...</p>
+
+    <script>
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                fetch(`/get_weather?lat=${lat}&lon=${lon}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("weather").textContent = data;
+                        console.log("🌦️ Clima recibido:", data); // Mostrar en consola
+                    })
+                    .catch(error => {
+                        console.error("❌ Error al obtener el clima:", error);
+                        document.getElementById("weather").textContent = "Error al obtener el clima.";
+                    });
+
+            }, function(error) {
+                console.error("⚠️ Error de geolocalización:", error);
+                document.getElementById("weather").textContent = "No se pudo acceder a tu ubicación.";
+            });
+        } else {
+            document.getElementById("weather").textContent = "Tu navegador no soporta geolocalización.";
+        }
+    </script>
+</body>
+</html>
