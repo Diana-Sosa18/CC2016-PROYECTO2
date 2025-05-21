@@ -18,15 +18,10 @@ class Neo4jApp:
             with self.driver.session() as session:
                 result = session.run("RETURN 1")
                 if result.single()[0] == 1:
-                    print("✅ Conexión exitosa a la base de datos Neo4j.")
+                    print("✅ Conexión exitosa a la base de datos.")
         except Exception as e:
             print("❌ Error al conectar a Neo4j:")
             print(e)
 
     def close(self):
         self.driver.close()
-
-    def execute_query(self, query):
-        with self.driver.session() as session:
-            result = session.run(query)
-            return result.data()

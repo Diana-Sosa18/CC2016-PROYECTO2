@@ -67,19 +67,16 @@ def main():
                     print(f"\n✨ ¡Bienvenid@, {username}!")
                     user_menu(manager, username)
                 else:
-                    print("\n❌ Usuario o contraseña incorrectos")
+                    print("\nCredenciales incorrectas")
             
             elif option == "3":
                 print("\n👋 ¡Hasta pronto!")
                 break
             
             else:
-                print("\n❌ Opción no válida")
-            
-            input("\nPresiona Enter para continuar...")
+                print("\nOpcion no válida")
     
     finally:
         manager.close()
 
-if __name__ == "__main__":
-    main()
+main()
