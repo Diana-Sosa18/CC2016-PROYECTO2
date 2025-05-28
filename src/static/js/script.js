@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     // Elementos del DOM
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
@@ -18,42 +18,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const weatherResult = document.getElementById('weatherResult');
     const continuarBtn = document.getElementById('continuarBtn');
     const outfitsScreen = document.getElementById('outfitsScreen');
+    const similaresScreen = document.getElementById('similaresScreen');
+    const similaresScreen2 = document.getElementById('similaresScreen2');
     const congratsModal = document.getElementById('congratsModal');
     const nuevoEstiloBtn = document.getElementById('nuevoEstiloBtn');
-    const similaresScreen = document.getElementById('similaresScreen');
-    const similaresScreen2 = document.getElementById('similaresScreen2'); // NUEVO
+    const outfitActions = document.getElementById('outfitActions');
+    const likeOutfitBtn = document.getElementById('likeOutfitBtn');
+    const moreOutfitsBtn = document.getElementById('moreOutfitsBtn');
+    const similaresActions1 = document.getElementById('similaresActions1');
+    const similaresActions2 = document.getElementById('similaresActions2');
 
     // Variables de estado
     let ocasionSeleccionada = null;
     let currentOutfit = null;
-    let currentSimilarLevel = 1;
 
     // Abrir modales
-    loginBtn.addEventListener('click', function () {
-        loginModal.style.display = 'block';
-    });
-
-    registerBtn.addEventListener('click', function () {
-        registerModal.style.display = 'block';
-    });
+    loginBtn.addEventListener('click', () => loginModal.style.display = 'block');
+    registerBtn.addEventListener('click', () => registerModal.style.display = 'block');
 
     // Cerrar modales
     closeBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', () => {
             loginModal.style.display = 'none';
             registerModal.style.display = 'none';
         });
     });
 
-    // Cerrar al hacer clic fuera
-    window.addEventListener('click', function (event) {
+    window.addEventListener('click', function(event) {
         if (event.target === loginModal) loginModal.style.display = 'none';
         if (event.target === registerModal) registerModal.style.display = 'none';
         if (event.target === congratsModal) congratsModal.style.display = 'none';
     });
 
     // Manejar login
-    loginForm.addEventListener('submit', function (e) {
+    loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
@@ -69,30 +67,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Manejar registro
-    registerForm.addEventListener('submit', function (e) {
+    registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('name').value;
-        const gender = document.querySelector('input[name="gender"]:checked').value;
 
         if (!name.trim()) {
             alert('Por favor ingrese su nombre');
             return;
         }
 
-        alert(`Registro exitoso: ${name} (${gender})`);
+        alert(`¡Bienvenido/a ${name}! Ahora puedes iniciar sesión`);
         registerModal.style.display = 'none';
     });
 
     // Selección de estilos
     styleOptions.forEach(option => {
-        option.addEventListener('click', function () {
+        option.addEventListener('click', function() {
             styleOptions.forEach(opt => opt.classList.remove('selected'));
             this.classList.add('selected');
         });
     });
 
     // Confirmar selección de estilo
-    confirmBtn.addEventListener('click', function () {
+    confirmBtn.addEventListener('click', function() {
         const selected = document.querySelector('.style-option.selected');
         if (selected) {
             stylesScreen.style.display = 'none';
@@ -104,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Selección de ocasión
     ocasionOptions.forEach(option => {
-        option.addEventListener('click', function () {
+        option.addEventListener('click', function() {
             ocasionOptions.forEach(opt => opt.classList.remove('selected'));
             this.classList.add('selected');
             ocasionSeleccionada = this.dataset.ocasion;
@@ -112,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Finalizar selección de ocasión
-    finalizarBtn.addEventListener('click', function () {
+    finalizarBtn.addEventListener('click', function() {
         if (ocasionSeleccionada) {
             ocasionScreen.style.display = 'none';
             climaScreen.style.display = 'block';
@@ -122,23 +119,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Función para obtener el clima
+    // Obtener clima simulado
     function obtenerClima() {
         if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
+            navigator.geolocation.getCurrentPosition(function(position) {
                 weatherResult.textContent = "Buscando datos meteorológicos...";
-
                 setTimeout(() => {
                     weatherResult.innerHTML = `
                         <div>🌡️ Temperatura: 24°C</div>
                         <div>🌦 Condición: Soleado</div>
                     `;
                 }, 1500);
-            }, function (error) {
-                console.error("Error de geolocalización:", error);
+            }, function(error) {
                 weatherResult.textContent = "Clima: Soleado, 24°C";
             });
         } else {
@@ -146,100 +138,146 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Continuar al dashboard
-    continuarBtn.addEventListener('click', function () {
+    continuarBtn.addEventListener('click', function() {
         climaScreen.style.display = 'none';
         outfitsScreen.style.display = 'block';
     });
 
-    // Función para mostrar outfits similares
+    // Mostrar outfits similares
     function showSimilarOutfits(baseOutfit, level) {
         currentOutfit = baseOutfit;
-        currentSimilarLevel = level;
+        outfitsScreen.style.display = 'none';
+        similaresScreen.style.display = 'none';
+        similaresScreen2.style.display = 'none';
 
         if (level === 1) {
-            outfitsScreen.style.display = 'none';
             similaresScreen.style.display = 'block';
-            console.log(`Mostrando 3 outfits similares a: ${baseOutfit}`);
         } else if (level === 2) {
-            similaresScreen.style.display = 'none';
             similaresScreen2.style.display = 'block';
-            console.log(`Mostrando 3 outfits adicionales similares a: ${baseOutfit}`);
         }
     }
 
-    // Botones "Ver similares"
-    outfitsScreen.querySelectorAll('.more-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.outfit-card');
-            showSimilarOutfits(card.querySelector('.outfit-image').alt, 1);
+    // Configurar interacción con outfits
+    function setupOutfitSelection() {
+        // Configurar selección en pantalla principal de outfits
+        const outfitCards = outfitsScreen.querySelectorAll('.outfit-card');
+        outfitCards.forEach(card => {
+            card.addEventListener('click', function() {
+                outfitCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                outfitActions.classList.remove('hidden');
+            });
         });
-    });
 
-    similaresScreen.querySelectorAll('.more-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.outfit-card');
-            showSimilarOutfits(card.querySelector('.outfit-image').alt, 2);
-        });
-    });
-
-    similaresScreen2.querySelectorAll('.more-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.outfit-card');
-            alert(`No hay más outfits similares disponibles para ${card.querySelector('.outfit-image').alt}`);
-        });
-    });
-
-    // Botones de retroceso
-    const backButtons = document.querySelectorAll('.back-btn');
-
-    backButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const currentScreen = this.closest('div[id$="Screen"]');
-
-            if (currentScreen.id === 'stylesScreen') {
-                currentScreen.style.display = 'none';
-                mainScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'ocasionScreen') {
-                currentScreen.style.display = 'none';
-                stylesScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'climaScreen') {
-                currentScreen.style.display = 'none';
-                ocasionScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'outfitsScreen') {
-                currentScreen.style.display = 'none';
-                climaScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'similaresScreen') {
-                currentScreen.style.display = 'none';
-                outfitsScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'similaresScreen2') {
-                currentScreen.style.display = 'none';
-                similaresScreen.style.display = 'block';
-            }
-        });
-    });
-
-    // Botones "Me gusta"
-    outfitsScreen.querySelectorAll('.like-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.outfit-card');
-            const img = card.querySelector('.outfit-image').alt;
-
-            this.innerHTML = '<span>✓</span> ¡Me gusta!';
-            this.style.backgroundColor = '#45a049';
-
+        // Configurar botón "Me gusta"
+        likeOutfitBtn.addEventListener('click', function() {
             congratsModal.style.display = 'block';
+            outfitActions.classList.add('hidden');
+            outfitCards.forEach(c => c.classList.remove('selected'));
         });
-    });
 
-    nuevoEstiloBtn.addEventListener('click', function () {
+        // Configurar botón "Ver similares"
+        moreOutfitsBtn.addEventListener('click', function() {
+            const selected = outfitsScreen.querySelector('.outfit-card.selected');
+            if (selected) {
+                showSimilarOutfits(selected.dataset.outfit, 1);
+                outfitActions.classList.add('hidden');
+                outfitCards.forEach(c => c.classList.remove('selected'));
+            }
+        });
+
+        // Configurar selección en pantalla de similares nivel 1
+        const similaresCards1 = similaresScreen.querySelectorAll('.outfit-card');
+        similaresCards1.forEach(card => {
+            card.addEventListener('click', function() {
+                similaresCards1.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                similaresActions1.classList.remove('hidden');
+            });
+        });
+
+        // Configurar botones en pantalla de similares nivel 1
+        similaresActions1.querySelector('.like-btn').addEventListener('click', function() {
+            congratsModal.style.display = 'block';
+            similaresActions1.classList.add('hidden');
+            similaresCards1.forEach(c => c.classList.remove('selected'));
+        });
+
+        similaresActions1.querySelector('.more-btn').addEventListener('click', function() {
+            const selected = similaresScreen.querySelector('.outfit-card.selected');
+            if (selected) {
+                showSimilarOutfits(selected.dataset.outfit, 2);
+                similaresActions1.classList.add('hidden');
+                similaresCards1.forEach(c => c.classList.remove('selected'));
+            }
+        });
+
+        // Configurar selección en pantalla de similares nivel 2
+        const similaresCards2 = similaresScreen2.querySelectorAll('.outfit-card');
+        similaresCards2.forEach(card => {
+            card.addEventListener('click', function() {
+                similaresCards2.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                similaresActions2.classList.remove('hidden');
+            });
+        });
+
+        // Configurar botón en pantalla de similares nivel 2
+        similaresActions2.querySelector('.like-btn').addEventListener('click', function() {
+            congratsModal.style.display = 'block';
+            similaresActions2.classList.add('hidden');
+            similaresCards2.forEach(c => c.classList.remove('selected'));
+        });
+    }
+
+    function setupBackButtons() {
+        document.querySelectorAll('.back-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const currentScreen = this.closest('div[id$="Screen"]');
+                if (currentScreen.id === 'stylesScreen') {
+                    currentScreen.style.display = 'none';
+                    mainScreen.style.display = 'block';
+                } else if (currentScreen.id === 'ocasionScreen') {
+                    currentScreen.style.display = 'none';
+                    stylesScreen.style.display = 'block';
+                } else if (currentScreen.id === 'climaScreen') {
+                    currentScreen.style.display = 'none';
+                    ocasionScreen.style.display = 'block';
+                } else if (currentScreen.id === 'outfitsScreen') {
+                    currentScreen.style.display = 'none';
+                    climaScreen.style.display = 'block';
+                    outfitActions.classList.add('hidden');
+                    currentScreen.querySelectorAll('.outfit-card').forEach(c => c.classList.remove('selected'));
+                } else if (currentScreen.id === 'similaresScreen') {
+                    currentScreen.style.display = 'none';
+                    outfitsScreen.style.display = 'block';
+                    similaresActions1.classList.add('hidden');
+                    currentScreen.querySelectorAll('.outfit-card').forEach(c => c.classList.remove('selected'));
+                } else if (currentScreen.id === 'similaresScreen2') {
+                    currentScreen.style.display = 'none';
+                    similaresScreen.style.display = 'block';
+                    similaresActions2.classList.add('hidden');
+                    currentScreen.querySelectorAll('.outfit-card').forEach(c => c.classList.remove('selected'));
+                }
+            });
+        });
+    }
+
+    nuevoEstiloBtn.addEventListener('click', function() {
         congratsModal.style.display = 'none';
         outfitsScreen.style.display = 'none';
+        similaresScreen.style.display = 'none';
+        similaresScreen2.style.display = 'none';
         stylesScreen.style.display = 'block';
+        
+        // Limpiar selecciones
+        outfitActions.classList.add('hidden');
+        similaresActions1.classList.add('hidden');
+        similaresActions2.classList.add('hidden');
+        document.querySelectorAll('.outfit-card').forEach(c => c.classList.remove('selected'));
     });
+
+    // Inicialización
+    setupOutfitSelection();
+    setupBackButtons();
 });

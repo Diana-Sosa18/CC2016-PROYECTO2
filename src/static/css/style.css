@@ -6,11 +6,10 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url('../images/fondo.png'); 
+    background-image: url('imagenes/fondo.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
     position: relative;
 }
 
@@ -69,7 +68,7 @@ h1 {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(3, 3, 3, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -113,7 +112,7 @@ h1 {
 }
 
 .form-group input:focus {
-    border-color: #4CAF50;
+    border-color: #f0a0c1;
     outline: none;
 }
 
@@ -123,29 +122,6 @@ h1 {
     font-size: 0.9rem;
 }
 
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-top: 0.5rem;
-}
-
-.radio-option {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.radio-option input[type="radio"] {
-    margin-right: 0.8rem;
-    accent-color: #2196F3;
-}
-
-.radio-label {
-    font-weight: normal;
-    color: #333;
-}
-
 /* Pantalla de Estilos */
 .hidden {
     display: none;
@@ -153,10 +129,9 @@ h1 {
 
 .styles-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    max-width: 500px;
-    margin: 20px auto;
+    margin: 20px 0;
 }
 
 .style-option {
@@ -176,12 +151,6 @@ h1 {
 }
 
 /* Pantalla de Ocasión */
-#ocasionScreen {
-    text-align: center;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
 .ocasion-options {
     display: flex;
     flex-direction: column;
@@ -215,25 +184,6 @@ h1 {
 }
 
 /* Pantalla de Clima */
-#climaScreen {
-    text-align: center;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-#climaScreen h1 {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-#climaScreen h2 {
-    font-size: 2rem;
-    margin-top: 0;
-    margin-bottom: 30px;
-    color: #ce226a;
-}
-
 #weatherResult {
     font-size: 1.2rem;
     margin: 20px 0;
@@ -262,14 +212,7 @@ h1 {
     transform: translateX(-3px);
 }
 
-/* Estilos para la pantalla de outfits */
-#outfitsScreen {
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
+/* Pantalla de Outfits */
 .outfits-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -283,10 +226,17 @@ h1 {
     padding: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .outfit-card:hover {
     transform: translateY(-5px);
+}
+
+.outfit-card.selected {
+    border: 3px solid #ce226a;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(206, 34, 106, 0.3);
 }
 
 .outfit-image {
@@ -297,50 +247,21 @@ h1 {
     margin-bottom: 15px;
 }
 
-.outfit-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 .like-btn {
-    background-color: #4CAF50;
+    background-color: #da8ac2;
     padding: 10px;
 }
 
 .more-btn {
-    background-color: #2196F3;
+    background-color: #da84bd;
     padding: 10px;
 }
 
-/* Estilos para resolver el problema de imágenes */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
 /* Pantalla de Felicitaciones */
-#congratsScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
 .congrats-content {
     text-align: center;
-    background: white;
     padding: 40px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    max-width: 400px;
 }
 
 #nuevoEstiloBtn {
@@ -349,61 +270,32 @@ img {
     padding: 12px 30px;
 }
 
-/* Estilos para el modal de felicitaciones */
-#congratsModal .modal-content {
-    text-align: center;
-    padding: 40px;
-    background-color: #f8b3e1;
-    border-radius: 15px;
-    max-width: 350px;
+/* Acciones de outfits */
+.outfit-global-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease;
 }
 
-#congratsModal h2 {
-    color: #ce226a;
-    margin-bottom: 20px;
+.outfit-global-actions.hidden {
+    display: none;
 }
 
-#congratsModal p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #333;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-#nuevoEstiloBtn {
-    background-color: #ce226a;
+.outfit-global-actions .btn {
+    width: auto;
     padding: 12px 30px;
-    font-size: 1rem;
-    border-radius: 25px;
-    transition: all 0.3s;
 }
 
-#nuevoEstiloBtn:hover {
-    background-color: #a81d56;
-    transform: translateY(-2px);
-}
-
-/* Estilos para la pantalla de similares */
-#similaresScreen {
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-#similaresScreen h1 {
-    margin-bottom: 30px;
-    color: #ce226a;
-}
-
-/* Estilos para la segunda pantalla de similares */
-#similaresScreen2 {
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-#similaresScreen2 h1 {
-    margin-bottom: 30px;
-    color: #ce226a;
+.outfit-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
 }
