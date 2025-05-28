@@ -13,8 +13,8 @@ USER = os.getenv("NEO4J_USER")
 PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 class RecommendationManager:
-    def __init__(self, app):
-        self.app = app
+    def __init__(self, driver):
+        self.driver = driver
 
     def get_recommendations(self, estilo, clima):
         query = """
@@ -24,7 +24,7 @@ class RecommendationManager:
                o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
         LIMIT 5
         """
-        with self.app.driver.session() as session:
+        with self.driver.session() as session:
             result = session.run(query, {
                 "estilo": estilo,
                 "clima": clima
@@ -32,4 +32,5 @@ class RecommendationManager:
             return [dict(row) for row in result]
 
     def close(self):
-        self.app.close()
+        if self.driver:
+            self.driver.close()
