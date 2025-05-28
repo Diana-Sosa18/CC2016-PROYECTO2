@@ -1,60 +1,80 @@
+import sys
+import os
+import requests
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+
+from neo4j import GraphDatabase
 from recommendation_manager import RecommendationManager
 from db_connection import URI, USER, PASSWORD
-from flask import jsonify
-from flask import Flask, render_template, request
-import requests
-import os
-import atexit
 
-# Ruta absoluta hacia src/templates
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))  
-template_dir = os.path.join(base_dir, 'templates')
-
-app = Flask(__name__)
-recommendation_manager = RecommendationManager(URI, USER, PASSWORD)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/get_weather")
-def get_weather():
-    lat = request.args.get("lat")
-    lon = request.args.get("lon")
-
-    # Usamos latitud y longitud para hacer la consulta
-    if lat and lon:
-        url = f"http://wttr.in/{lat},{lon}?format=%c+%C,+%t,+Precipitación:+%p,+Sensación:+%f"
-        response = requests.get(url)
+def obtener_clima_actual():
+    try:
+        response = requests.get("https://wttr.in/?format=%t+%C")
         if response.status_code == 200:
-            print("✅ Clima desde wttr.in:", response.text)
-            return response.text
+            datos = response.text.strip()
+            temperatura, descripcion = datos.split(" ", 1)
+            temperatura = int(temperatura.replace("°C", "").replace("+", ""))
+            return temperatura, descripcion
         else:
-            return "❌ No se pudo obtener el clima para las coordenadas brindadas."
-    return "⚠️ Coordenadas no recibidas."
+            print("⚠️ No se pudo obtener el clima actual. Usando clima por defecto.")
+            return 20, "Despejado"
+    except Exception as e:
+        print(f"Error al obtener el clima: {e}")
+        return 20, "Despejado"
 
-@app.route('/recommend', methods=['POST'])
-def recommend():
-    data = request.json
-    username = data.get('user')
-    estilo = data.get('estilo')
-    clima = data.get('clima')
-    ocasion = data.get('ocasion')
+def mapear_clima(temperatura, descripcion):
+    if temperatura >= 25:
+        return "Calor Tropical"
+    elif temperatura >= 22:
+        return "Soleado cálido"
+    elif temperatura >= 16:
+        return "Templado"
+    else:
+        return "Frío"
 
-    # Validar datos mínimos
-    if not all([username, estilo, clima, ocasion]):
-        return jsonify({"error": "Faltan datos para generar recomendaciones"}), 400
+def mostrar_recomendaciones(estilo, clima, manager):
+    recomendaciones = manager.get_recommendations(estilo, clima)
+    if not recomendaciones:
+        print(f"\n❌ No se encontraron recomendaciones para el estilo '{estilo}' y clima '{clima}'.")
+        return
+    print(f"\n👕 Recomendaciones para estilo *{estilo}* y clima *{clima}*:\n")
+    for i, outfit in enumerate(recomendaciones[:3], 1):
+        print(f"🔹 Outfit {i}:")
+        print(f"   - Superior: {outfit['Upper']}")
+        print(f"   - Inferior: {outfit['Lower']}")
+        print(f"   - Calzado: {outfit['Footwear']}")
+        print(f"   - Accesorio: {outfit['Accesory']}")
+        print(f"   - Imagen ID: {outfit['ID_Image']}\n")
 
-    prendas = recommendation_manager.get_recommendations(username, estilo, clima, ocasion)
-    if not prendas:
-        return jsonify({"message": "No se encontraron recomendaciones para esos parámetros"}), 404
+def main():
+    estilos_disponibles = ["Hipster", "Elegante", "Vintage"]
+    print("🎨 ¿Qué estilo prefieres hoy?")
+    for idx, estilo in enumerate(estilos_disponibles, 1):
+        print(f"{idx}. {estilo}")
+    
+    while True:
+        opcion = input("Selecciona una opción (1-3): ")
+        if opcion in ["1", "2", "3"]:
+            estilo_elegido = estilos_disponibles[int(opcion) - 1]
+            break
+        else:
+            print("❌ Opción no válida. Intenta de nuevo.")
 
-    return jsonify(prendas)
+    temperatura, descripcion = obtener_clima_actual()
+    clima_mapeado = mapear_clima(temperatura, descripcion)
 
+    print(f"\n☀️ Clima detectado: {temperatura}°C - {descripcion}")
+    print(f"🗺️  Clima mapeado en base de datos: {clima_mapeado}")
+
+    # Crear conexión y manager
+    driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
+    manager = RecommendationManager(driver)
+
+    # Mostrar recomendaciones
+    mostrar_recomendaciones(estilo_elegido, clima_mapeado, manager)
+
+    # Cerrar conexión
+    manager.close()
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-@atexit.register
-def shutdown():
-    recommendation_manager.close()
+    main()

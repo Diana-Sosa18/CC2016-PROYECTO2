@@ -18,10 +18,10 @@ class RecommendationManager:
 
     def get_recommendations(self, estilo, clima):
         query = """
-        MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style {nombre: $estilo}),
-              (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima})
+        MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style {Name: $estilo}),
+            (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima})
         RETURN o.Name AS Name, o.ID_Image AS ID_Image, o.Upper AS Upper, 
-               o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
+            o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
         LIMIT 5
         """
         with self.driver.session() as session:
@@ -30,6 +30,7 @@ class RecommendationManager:
                 "clima": clima
             })
             return [dict(row) for row in result]
+
 
     def close(self):
         if self.driver:
