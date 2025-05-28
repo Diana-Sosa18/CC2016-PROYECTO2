@@ -1,0 +1,121 @@
+﻿Name;ID_Image;Upper;Lower;Footwear;Accesory
+OEFU1;OEFU1.png;Blazer de lana;Pantalón de vestir;Oxfords negros;Reloj de pulsera
+OEFU2;OEFU2.png;Suéter de cashmere;Jeans slim oscuros;Botines;Bufanda de seda
+OEFU3;OEFU3.png;Chaleco de tweed;Pantalón de corduroy;Zapatos Derby;Guantes de cuero
+OEFU4;OEFU4.png;Camisa de cuello alto;Falda pantalón de lana;Botas Chelsea;Corbata delgada
+OEFU5;OEFU5.png;Cardigán abotonado;Pantalón de vestir;Oxfords negros;Pañuelo de bolsillo
+OEFU6;OEFU6.png;Blazer de lana;Jeans slim oscuros;Botines;Gafas de pasta
+OEFU7;OEFU7.png;Suéter de cashmere;Pantalón de corduroy;Zapatos Derby;Bufanda de seda
+OEFU8;OEFU8.png;Chaleco de tweed;Falda pantalón de lana;Botas Chelsea;Reloj de pulsera
+OEFU9;OEFU9.png;Camisa de cuello alto;Pantalón de vestir;Oxfords negros;Corbata delgada
+OEFU10;OEFU10.png;Cardigán abotonado;Jeans slim oscuros;Botines;Pañuelo de bolsillo
+OETU1;OETU1.png;Blazer de lino;Pantalón chino;Mocasines;Reloj de madera
+OETU2;OETU2.png;Camisa de manga larga;Bermudas de vestir;Zapatos de lona;Cinturón de cuero
+OETU3;OETU3.png;Chaleco de punto fino;Pantalón de vestir;Zapatos Oxford;Gafas redondas
+OETU4;OETU4.png;Polo de seda;Pantalón de lino;Mocasines;Pañuelo al cuello
+OETU5;OETU5.png;Blazer de lino;Bermudas de vestir;Zapatos de lona;Reloj de pulsera
+OETU6;OETU6.png;Camisa de manga larga;Pantalón chino;Zapatos Oxford;Cinturón de cuero
+OETU7;OETU7.png;Chaleco de punto fino;Pantalón de lino;Mocasines;Gafas redondas
+OETU8;OETU8.png;Polo de seda;Bermudas de vestir;Zapatos de lona;Pañuelo al cuello
+OETU9;OETU9.png;Blazer de lino;Pantalón de vestir;Zapatos Oxford;Reloj de madera
+OETU10;OETU10.png;Camisa de manga larga;Pantalón de lino;Mocasines;Cinturón de cuero
+OESU1;OESU1.png;Camisa de lino blanco;Pantalón de lino;Alpargatas;Gafas de sol
+OESU2;OESU2.png;Polo de algodón;Bermudas de lino;Zapatos de lona;Sombrero de paja
+OESU3;OESU3.png;Camiseta de cuello alto;Pantalón chino claro;Mocasines;Collar minimalista
+OESU4;OESU4.png;Camisa abierta de lino;Bermudas de vestir;Alpargatas;Pulsera de cuero
+OESU5;OESU5.png;Polo de algodón;Pantalón de lino;Zapatos de lona;Gafas de sol
+OESU6;OESU6.png;Camiseta de cuello alto;Bermudas de lino;Mocasines;Sombrero de paja
+OESU7;OESU7.png;Camisa de lino blanco;Pantalón chino claro;Alpargatas;Collar minimalista
+OESU8;OESU8.png;Camisa abierta de lino;Bermudas de vestir;Zapatos de lona;Pulsera de cuero
+OESU9;OESU9.png;Polo de algodón;Pantalón de lino;Mocasines;Gafas de sol
+OESU10;OESU10.png;Camiseta de cuello alto;Bermudas de lino;Alpargatas;Sombrero de paja
+OECU1;OECU1.png;Guayabera de lino;Pantalón de lino claro;Sandalias elegantes;Gafas de sol grandes
+OECU2;OECU2.png;Camisa de manga corta;Bermudas de algodón;Alpargatas;Sombrero de paja
+OECU3;OECU3.png;Polo sin mangas;Pantalón de lino;Mocasines;Collar de cuentas
+OECU4;OECU4.png;Camisa abierta de algodón;Bermudas de lino;Sandalias elegantes;Pulseras de hilo
+OECU5;OECU5.png;Camisa de manga corta;Pantalón de lino claro;Alpargatas;Gafas de sol grandes
+OECU6;OECU6.png;Polo sin mangas;Bermudas de algodón;Mocasines;Sombrero de paja
+OECU7;OECU7.png;Guayabera de lino;Pantalón de lino;Sandalias elegantes;Collar de cuentas
+OECU8;OECU8.png;Camisa abierta de algodón;Bermudas de lino;Alpargatas;Pulseras de hilo
+OECU9;OECU9.png;Camisa de manga corta;Pantalón de lino claro;Mocasines;Gafas de sol grandes
+OECU10;OECU10.png;Polo sin mangas;Bermudas de algodón;Sandalias elegantes;Sombrero de paja
+OEFT1;OEFT1.png;Blazer de lana gris;Pantalón de vestir negro;Oxfords negros;Reloj de acero
+OEFT2;OEFT2.png;Suéter turtleneck;Falda-pantalón de lana;Botines;Bufanda de cachemira
+OEFT3;OEFT3.png;Chaleco de punto fino;Pantalón de vestir azul;Zapatos Derby;Corbata de seda
+OEFT4;OEFT4.png;Camisa de cuello francés;Chaleco de tweed;Botas Chelsea;Gemelos plateados
+OEFT5;OEFT5.png;Cardigán largo abotonado;Jeans slim oscuros;Oxfords negros;Cartera de cuero
+OEFT6;OEFT6.png;Blazer doble botonadura;Pantalón de pana;Botines;Guantes de piel
+OEFT7;OEFT7.png;Suéter de cashmere;Falda midi plisada;Zapatos Derby;Pañuelo de seda
+OEFT8;OEFT8.png;Camisa blanca premium;Pantalón de vestir gris;Oxfords negros;Reloj de pulsera
+OEFT9;OEFT9.png;Chaqueta de cuero elegante;Jeans negros;Botas Chelsea;Cinturón fino
+OEFT10;OEFT10.png;Blazer de lana con cinturón;Pantalón de vestir;Zapatos Derby;Corbata estrecha
+OETT1;OETT1.png;Blazer de lino beige;Pantalón chino crema;Mocasines;Reloj de madera
+OETT2;OETT2.png;Camisa de seda blanca;Bermudas de vestir;Zapatos de lona;Cinturón de cuero
+OETT3;OETT3.png;Chaleco de lino;Pantalón de vestir;Zapatos Oxford;Pañuelo de bolsillo
+OETT4;OETT4.png;Polo de algodón premium;Pantalón de lino;Mocasines;Gafas de pasta
+OETT5;OETT5.png;Blazer sin mangas;Falda tableada;Zapatos de lona;Collar minimalista
+OETT6;OETT6.png;Camisa rayada fina;Pantalón chino;Zapatos Oxford;Brazalete de cuero
+OETT7;OETT7.png;Chaleco de seda;Bermudas de vestir;Mocasines;Reloj de pulsera
+OETT8;OETT8.png;Blazer de mezclilla fina;Pantalón de vestir;Zapatos de lona;Pañuelo al cuello
+OETT9;OETT9.png;Camisa de lino;Falda pantalón;Zapatos Oxford;Gafas redondas
+OETT10;OETT10.png;Polo de cuello alto;Pantalón de lino;Mocasines;Cinturón de tela
+OEST1;OEST1.png;Guayabera blanca;Pantalón de lino;Alpargatas;Gafas de sol
+OEST2;OEST2.png;Camisa de manga corta;Bermudas de lino;Zapatos de lona;Sombrero panamá
+OEST3;OEST3.png;Polo de lino premium;Pantalón chino claro;Mocasines;Reloj de pulsera
+OEST4;OEST4.png;Camisa abierta de lino;Bermudas de vestir;Alpargatas;Pulsera de cuero
+OEST5;OEST5.png;Blazer de lino ligero;Pantalón de lino;Zapatos de lona;Gafas de sol
+OEST6;OEST6.png;Camisa de seda ligera;Bermudas de lino;Mocasines;Pañuelo de bolsillo
+OEST7;OEST7.png;Polo de cuello alto;Pantalón chino claro;Alpargatas;Collar de cuentas
+OEST8;OEST8.png;Camisa estampada sutil;Bermudas de vestir;Zapatos de lona;Sombrero panamá
+OEST9;OEST9.png;Guayabera color crudo;Pantalón de lino;Mocasines;Gafas de sol
+OEST10;OEST10.png;Camisa de manga corta;Bermudas de lino;Alpargatas;Reloj de pulsera
+OECT1;OECT1.png;Camisa de lino sin mangas;Pantalón de lino claro;Sandalias elegantes;Gafas de sol grandes
+OECT2;OECT2.png;Polo de seda sin mangas;Bermudas de algodón;Mocasines;Reloj de pulsera
+OECT3;OECT3.png;Guayabera ligera;Pantalón de lino;Sandalias;Sombrero de paja
+OECT4;OECT4.png;Camisa abierta de algodón;Bermudas de lino;Alpargatas;Collar de madera
+OECT5;OECT5.png;Polo de lino;Pantalón de lino claro;Sandalias elegantes;Gafas de sol
+OECT6;OECT6.png;Camisa sin mangas;Bermudas de algodón;Mocasines;Pulsera de cuero
+OECT7;OECT7.png;Guayabera de colores claros;Pantalón de lino;Sandalias;Reloj de pulsera
+OECT8;OECT8.png;Polo de cuello alto fino;Bermudas de lino;Alpargatas;Sombrero de paja
+OECT9;OECT9.png;Camisa de lino abierta;Pantalón de lino claro;Sandalias elegantes;Gafas de sol
+OECT10;OECT10.png;Polo sin mangas premium;Bermudas de algodón;Mocasines;Collar minimalista
+OEFF1;OEFF1.png;Smoking de terciopelo;Pantalón de satén;Zapatos de charol;Corbata de seda
+OEFF2;OEFF2.png;Blazer con lentejuelas;Jeans slim negros;Botines brillantes;Broche de diamantes
+OEFF3;OEFF3.png;Chaleco de cuero elegante;Pantalón de vestir;Botas de cuero;Cinturón metálico
+OEFF4;OEFF4.png;Camisa de seda negra;Falda pantalón de satén;Oxfords lustrados;Guantes de cuero
+OEFF5;OEFF5.png;Blazer de pana oscura;Pantalón de terciopelo;Zapatos de charol;Pañuelo de seda
+OEFF6;OEFF6.png;Jumpsuit de cuello alto;Cinturón ancho;Botines;Collar de perlas
+OEFF7;OEFF7.png;Camisa blanca con volantes;Pantalón de vestir negro;Zapatos de charol;Gemelos decorados
+OEFF8;OEFF8.png;Blazer de lana con brillo;Jeans slim negros;Botas elegantes;Tiara minimalista
+OEFF9;OEFF9.png;Body de seda con escote;Pantalón palazzo;Zapatos de tacón;Brazalete dorado
+OEFF10;OEFF10.png;Chaleco de satén;Pantalón de vestir;Oxfords;Corbata de raso
+OETF1;OETF1.png;Blazer de seda estampada;Pantalón de lino negro;Mocasines;Pañuelo estampado
+OETF2;OETF2.png;Camisa de encaje negro;Falda midi de satén;Zapatos de charol;Collar de strass
+OETF3;OETF3.png;Jumpsuit de cuello halter;Cinturón fino;Sandalias elegantes;Pulseras de plata
+OETF4;OETF4.png;Blazer corto de lino;Pantalón de vestir claro;Zapatos blancos;Gafas de sol chic
+OETF5;OETF5.png;Camisa de seda abierta;Bermudas de satén;Mocasines;Sombrero fedora
+OETF6;OETF6.png;Top con transparencias;Pantalón palazzo;Zapatos de charol;Cinturón de cadena
+OETF7;OETF7.png;Blazer sin mangas;Falda pantalón;Sandalias elegantes;Pendientes grandes
+OETF8;OETF8.png;Camisa de rayas finas;Pantalón de vestir;Zapatos blancos;Reloj de pulsera
+OETF9;OETF9.png;Chaleco de encaje;Jeans slim blancos;Mocasines;Bandana de seda
+OETF10;OETF10.png;Body de satén;Pantalón de lino;Zapatos de charol;Collar llamativo
+OESF1;OESF1.png;Guayabera de seda blanca;Pantalón de lino blanco;Alpargatas finas;Gafas de sol doradas
+OESF2;OESF2.png;Camisa sin mangas estampada;Bermudas de satén;Sandalias;Sombrero panamá
+OESF3;OESF3.png;Top de encaje con lentejuelas;Falda larga ligera;Zapatos de tela;Collar de conchas
+OESF4;OESF4.png;Blazer de lino sin mangas;Shorts de vestir;Alpargatas finas;Brazaletes de madera
+OESF5;OESF5.png;Camisa abierta de seda;Pantalón de lino;Sandalias;Gafas de sol
+OESF6;OESF6.png;Jumpsuit corto de lino;Cinturón ancho;Zapatos de tela;Pendientes colgantes
+OESF7;OESF7.png;Guayabera corta;Bermudas de lino;Alpargatas finas;Sombrero de paja
+OESF8;OESF8.png;Camisa estampada holgada;Pantalón palazzo;Sandalias;Collar de cuentas
+OESF9;OESF9.png;Top con espalda abierta;Falda midi ligera;Zapatos de tela;Pulseras de colores
+OESF10;OESF10.png;Blazer ligero de algodón;Shorts de vestir;Alpargatas finas;Gafas de sol
+OECF1;OECF1.png;Camisa hawaiana de seda;Bermudas de lino;Sandalias planas;Collar de flores
+OECF2;OECF2.png;Top sin mangas brillante;Falda corta de gasa;Zapatos de playa;Pulseras de bambú
+OECF3;OECF3.png;Guayabera ligera;Pantalón de lino claro;Alpargatas;Sombrero de paja
+OECF4;OECF4.png;Camisa abierta estampada;Shorts de satén;Sandalias planas;Gafas de sol grandes
+OECF5;OECF5.png;Body de encaje transparente;Falda larga ligera;Zapatos de playa;Collar de semillas
+OECF6;OECF6.png;Polo de lino sin mangas;Bermudas de algodón;Alpargatas;Brazalete de cuero
+OECF7;OECF7.png;Camisa de seda sin mangas;Pantalón de lino;Sandalias planas;Sombrero panamá
+OECF8;OECF8.png;Top corto con brillos;Falda corta de gasa;Zapatos de playa;Pendientes largos
+OECF9;OECF9.png;Guayabera corta estampada;Bermudas de lino;Alpargatas;Collar de flores
+OECF10;OECF10.png;Camisa holgada de algodón;Shorts de satén;Sandalias planas;Gafas de sol
