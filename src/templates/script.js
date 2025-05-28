@@ -17,34 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const climaScreen = document.getElementById('climaScreen');
     const weatherResult = document.getElementById('weatherResult');
     const continuarBtn = document.getElementById('continuarBtn');
-    const outfitsScreen = document.getElementById('outfitsScreen');
-    const congratsModal = document.getElementById('congratsModal');
-    const nuevoEstiloBtn = document.getElementById('nuevoEstiloBtn');
-    const similaresScreen = document.getElementById('similaresScreen');
-    const similaresRow = document.getElementById('similaresRow');
     
     // Variables de estado
     let ocasionSeleccionada = null;
-    let currentOutfit = null;
-
-    // Datos de outfits similares
-    const outfitsSimilares = {
-        'Outfit Elegante': [
-            { nombre: 'Outfit Elegante Similar 1', imagen: 'imagenes/similar1.png' },
-            { nombre: 'Outfit Elegante Similar 2', imagen: 'imagenes/similar2.png' },
-            { nombre: 'Outfit Elegante Similar 3', imagen: 'imagenes/similar3.png' }
-        ],
-        'Outfit Vintage': [
-            { nombre: 'Outfit Vintage Similar 1', imagen: 'imagenes/similar4.png' },
-            { nombre: 'Outfit Vintage Similar 2', imagen: 'imagenes/similar5.png' },
-            { nombre: 'Outfit Vintage Similar 3', imagen: 'imagenes/similar6.png' }
-        ],
-        'Outfit Hipster': [
-            { nombre: 'Outfit Hipster Similar 1', imagen: 'imagenes/similar7.png' },
-            { nombre: 'Outfit Hipster Similar 2', imagen: 'imagenes/similar8.png' },
-            { nombre: 'Outfit Hipster Similar 3', imagen: 'imagenes/similar9.png' }
-        ]
-    };
 
     // Abrir modales
     loginBtn.addEventListener('click', function() {
@@ -60,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             loginModal.style.display = 'none';
             registerModal.style.display = 'none';
-            congratsModal.style.display = 'none';
         });
     });
 
@@ -68,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('click', function(event) {
         if (event.target === loginModal) loginModal.style.display = 'none';
         if (event.target === registerModal) registerModal.style.display = 'none';
-        if (event.target === congratsModal) congratsModal.style.display = 'none';
     });
 
     // Manejar login
@@ -91,15 +64,15 @@ document.addEventListener('DOMContentLoaded', function() {
     registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('name').value;
+        const gender = document.querySelector('input[name="gender"]:checked').value;
         
         if(!name.trim()) {
             alert('Por favor ingrese su nombre');
             return;
         }
         
+        alert(`Registro exitoso: ${name} (${gender})`);
         registerModal.style.display = 'none';
-        mainScreen.style.display = 'none';
-        stylesScreen.style.display = 'block';
     });
 
     // Selección de estilos
@@ -167,10 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Continuar a outfits
+    // Continuar al dashboard
     continuarBtn.addEventListener('click', function() {
-        climaScreen.style.display = 'none';
-        outfitsScreen.style.display = 'block';
+        alert("¡Preferencias guardadas correctamente!");
+        // window.location.href = "dashboard.html";
     });
 
     // Configurar botones de retroceso
@@ -192,87 +165,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentScreen.style.display = 'none';
                 ocasionScreen.style.display = 'block';
             }
-            else if (currentScreen.id === 'outfitsScreen') {
-                currentScreen.style.display = 'none';
-                climaScreen.style.display = 'block';
-            }
-            else if (currentScreen.id === 'similaresScreen') {
-                currentScreen.style.display = 'none';
-                outfitsScreen.style.display = 'block';
-            }
         });
     });
 
+// Configuración de eventos para los botones
+document.addEventListener('DOMContentLoaded', function() {
+    const outfitsScreen = document.getElementById('outfitsScreen');
+    
     // Botones "Me gusta"
-    function setupLikeButtons() {
-        document.querySelectorAll('.like-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.outfit-card');
-                const img = card.querySelector('.outfit-image').alt;
-                
-                this.innerHTML = '<span>✓</span> ¡Me gusta!';
-                this.style.backgroundColor = '#45a049';
-                
-                congratsModal.style.display = 'block';
-            });
+    outfitsScreen.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.outfit-card');
+            const img = card.querySelector('.outfit-image').alt;
+            
+            this.innerHTML = '<span>✓</span> ¡Me gusta!';
+            this.style.backgroundColor = '#45a049';
+            alert(`Has guardado ${img} en tus favoritos`);
         });
-    }
-
-    // Botón para volver a estilos
-    nuevoEstiloBtn.addEventListener('click', function() {
-        congratsModal.style.display = 'none';
-        outfitsScreen.style.display = 'none';
-        stylesScreen.style.display = 'block';
     });
     
     // Botones "Ver similares"
     outfitsScreen.querySelectorAll('.more-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const card = this.closest('.outfit-card');
-            currentOutfit = card.querySelector('.outfit-image').alt;
-            
-            outfitsScreen.style.display = 'none';
-            similaresScreen.style.display = 'block';
-            
-            cargarOutfitsSimilares(currentOutfit);
+            const img = card.querySelector('.outfit-image').alt;
+            alert(`Buscando outfits similares a ${img}`);
         });
     });
+});
 
-    // Función para cargar outfits similares
-    function cargarOutfitsSimilares(outfitBase) {
-        similaresRow.innerHTML = '';
-        
-        const similares = outfitsSimilares[outfitBase] || [];
-        
-        similares.forEach((outfit) => {
-            const outfitCard = document.createElement('div');
-            outfitCard.className = 'outfit-card';
-            outfitCard.innerHTML = `
-                <img src="${outfit.imagen}" alt="${outfit.nombre}" class="outfit-image">
-                <div class="outfit-actions">
-                    <button class="btn like-btn">✓ Me gusta</button>
-                    <button class="btn more-btn">🔍 Ver similares</button>
-                </div>
-            `;
-            similaresRow.appendChild(outfitCard);
-        });
-        
-        // Configurar eventos para los nuevos botones
-        setupLikeButtons();
-        setupMoreButtons();
-    }
+// En el evento click del continuarBtn
+continuarBtn.addEventListener('click', function() {
+    climaScreen.style.display = 'none';
+    outfitsScreen.style.display = 'block';
+});
 
-    // Configurar botones "Ver similares" en outfits similares
-    function setupMoreButtons() {
-        similaresScreen.querySelectorAll('.more-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.outfit-card');
-                currentOutfit = card.querySelector('.outfit-image').alt;
-                cargarOutfitsSimilares(currentOutfit);
-            });
-        });
-    }
-
-    // Configurar eventos iniciales
-    setupLikeButtons();
 });

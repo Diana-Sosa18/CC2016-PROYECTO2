@@ -26,29 +26,19 @@
         </div>
     </div>
 
-    <!-- Modal de Registro -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Registro</h2>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="name">Nombre*</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <button type="submit" class="btn">Continuar</button>
-            </form>
-        </div>
-    </div>
-
     <!-- Pantalla de Estilos -->
     <div id="stylesScreen" class="hidden">
         <button class="back-btn">←</button>
         <h1>¿Qué estilo prefieres?</h1>
         <div class="styles-grid">
             <div class="style-option">Elegante</div>
+            <div class="style-option">Romántico</div>
+            <div class="style-option">Gótico</div>
             <div class="style-option">Vintage</div>
             <div class="style-option">Hipster</div>
+            <div class="style-option">Streetwear</div>
+            <div class="style-option">Minimalista</div>
+            <div class="style-option">Clásico</div>
         </div>
         <button id="confirmBtn" class="btn">Confirmar</button>
     </div>
@@ -63,9 +53,11 @@
             </div>
             <div class="ocasion-option" data-ocasion="fiesta">
                 <span>Fiesta</span>
+                <span class="checkmark">☑</span>
             </div>
             <div class="ocasion-option" data-ocasion="cotidiano">
                 <span>Día cotidiano</span>
+                <span class="checkmark">☑</span>
             </div>
         </div>
         <button id="finalizarBtn" class="btn">Finalizar</button>
@@ -80,54 +72,87 @@
         <button id="continuarBtn" class="btn">Continuar</button>
     </div>
 
-    <!-- Pantalla de Outfits -->
-    <div id="outfitsScreen" class="hidden">
-        <button class="back-btn">←</button>
-        <h1>Te recomendamos estos outfits</h1>
-        <div class="outfits-container">
-            <div class="outfits-row">
-                <div class="outfit-card">
-                    <img src="imagenes/outfit1.png" alt="Outfit Elegante" class="outfit-image">
-                    <div class="outfit-actions">
-                        <button class="btn like-btn">✓ Me gusta</button>
-                        <button class="btn more-btn">🔍 Ver similares</button>
-                    </div>
-                </div>
-                <div class="outfit-card">
-                    <img src="imagenes/outfit2.png" alt="Outfit Vintage" class="outfit-image">
-                    <div class="outfit-actions">
-                        <button class="btn like-btn">✓ Me gusta</button>
-                        <button class="btn more-btn">🔍 Ver similares</button>
-                    </div>
-                </div>
-                <div class="outfit-card">
-                    <img src="imagenes/outfit3.png" alt="Outfit Hipster" class="outfit-image">
-                    <div class="outfit-actions">
-                        <button class="btn like-btn">✓ Me gusta</button>
-                        <button class="btn more-btn">🔍 Ver similares</button>
-                    </div>
-                </div>
+<!-- Pantalla de Outfits -->
+<div id="outfitsScreen" class="hidden">
+    <h1>Te recomendamos estos outfits</h1>
+    
+    <div class="outfits-grid">
+        <!-- Outfit 1 -->
+        <div class="outfit-card">
+            <img src="imagenes/outfit1.png" alt="Outfit 1" class="outfit-image">
+            <div class="outfit-actions">
+                <button class="btn like-btn">
+                    <span>✓</span> Me gusta
+                </button>
+                <button class="btn more-btn">
+                    <span>🔍</span> Ver similares
+                </button>
+            </div>
+        </div>
+        
+        <!-- Outfit 2 -->
+        <div class="outfit-card">
+            <img src="outfit2.png" alt="Outfit 2" class="outfit-image">
+            <div class="outfit-actions">
+                <button class="btn like-btn">
+                    <span>✓</span> Me gusta
+                </button>
+                <button class="btn more-btn">
+                    <span>🔍</span> Ver similares
+                </button>
+            </div>
+        </div>
+        
+        <!-- Outfit 3 -->
+        <div class="outfit-card">
+            <img src="outfit3.png" alt="Outfit 3" class="outfit-image">
+            <div class="outfit-actions">
+                <button class="btn like-btn">
+                    <span>✓</span> Me gusta
+                </button>
+                <button class="btn more-btn">
+                    <span>🔍</span> Ver similares
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Pantalla de Outfits Similares -->
-    <div id="similaresScreen" class="hidden">
-        <button class="back-btn">←</button>
-        <h1>Outfits similares</h1>
-        <div class="outfits-container">
-            <div class="outfits-row" id="similaresRow">
-                <!-- Los outfits similares se cargarán aquí -->
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal de Felicitaciones -->
-    <div id="congratsModal" class="modal">
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
         <div class="modal-content">
-            <h2>¡Felicitaciones!</h2>
-            <p>Has escogido tu outfit perfecto.</p>
-            <button id="nuevoEstiloBtn" class="btn">Buscar otro estilo</button>
+            <span class="close">&times;</span>
+            <h2>Cúentanos quién eres</h2>
+            <p class="subtitle">Crearemos una experiencia personalizada para ti...</p>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Nombre*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Género</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="mujer" checked>
+                            <span class="radio-label">Mujer</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="hombre">
+                            <span class="radio-label">Hombre</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="nodecir">
+                            <span class="radio-label">No decirlo</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">Continuar</button>
+            </form>
         </div>
     </div>
 
