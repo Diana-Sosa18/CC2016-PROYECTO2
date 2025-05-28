@@ -31,6 +31,23 @@ class RecommendationManager:
             })
             return [dict(row) for row in result]
 
+    def get_similar_recommendations(self, nombre_outfit, estilo, clima, excluidos):
+        query = """
+        MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style),
+            (o)-[:ADEQUADO_PARA]->(c:Climate)
+        WHERE s.Name = $estilo AND c.Name = $clima AND NOT o.Name IN $excluidos
+        RETURN o.Name AS Name, o.Upper AS Upper, o.Lower AS Lower, 
+            o.Footwear AS Footwear, o.Accesory AS Accesory, 
+            o.ID_Image AS ID_Image
+        LIMIT 5
+        """
+        with self.driver.session() as session:
+            result = session.run(query, {
+                "estilo": estilo,
+                "clima": clima,
+                "excluidos": list(excluidos)
+            })
+            return [record.data() for record in result]
 
     def close(self):
         if self.driver:

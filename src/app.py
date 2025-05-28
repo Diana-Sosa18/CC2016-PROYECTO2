@@ -36,15 +36,38 @@ def mostrar_recomendaciones(estilo, clima, manager):
     recomendaciones = manager.get_recommendations(estilo, clima)
     if not recomendaciones:
         print(f"\n❌ No se encontraron recomendaciones para el estilo '{estilo}' y clima '{clima}'.")
-        return
+        return []
+    
     print(f"\n👕 Recomendaciones para estilo *{estilo}* y clima *{clima}*:\n")
     for i, outfit in enumerate(recomendaciones[:3], 1):
         print(f"🔹 Outfit {i}:")
+        print(f"   - Nombre: {outfit['Name']}")
         print(f"   - Superior: {outfit['Upper']}")
         print(f"   - Inferior: {outfit['Lower']}")
         print(f"   - Calzado: {outfit['Footwear']}")
         print(f"   - Accesorio: {outfit['Accesory']}")
         print(f"   - Imagen ID: {outfit['ID_Image']}\n")
+    return recomendaciones[:3]
+
+def elegir_outfit(recomendaciones):
+    while True:
+        seleccion = input("👉 Ingresa el número del outfit que más te gusta (1-3): ")
+        if seleccion in ["1", "2", "3"]:
+            return recomendaciones[int(seleccion) - 1]
+        print("❌ Selección inválida. Intenta de nuevo.")
+
+def obtener_estilo_clima_de_outfit(manager, nombre_outfit):
+    query = """
+    MATCH (o:Outfit {Name: $name})-[:PERTENECE_A]->(s:Style),
+          (o)-[:ADEQUADO_PARA]->(c:Climate)
+    RETURN s.Name AS estilo, c.Name AS clima
+    """
+    with manager.driver.session() as session:
+        result = session.run(query, {"name": nombre_outfit})
+        record = result.single()
+        if record:
+            return record["estilo"], record["clima"]
+        return None, None
 
 def main():
     estilos_disponibles = ["Hipster", "Elegante", "Vintage"]
@@ -66,15 +89,50 @@ def main():
     print(f"\n☀️ Clima detectado: {temperatura}°C - {descripcion}")
     print(f"🗺️  Clima mapeado en base de datos: {clima_mapeado}")
 
-    # Crear conexión y manager
+    # Conectar con Neo4j
     driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
     manager = RecommendationManager(driver)
 
-    # Mostrar recomendaciones
-    mostrar_recomendaciones(estilo_elegido, clima_mapeado, manager)
+    # Primera ronda de recomendaciones
+    recomendaciones = mostrar_recomendaciones(estilo_elegido, clima_mapeado, manager)
+    if not recomendaciones:
+        manager.close()
+        return
 
-    # Cerrar conexión
+    outfit_elegido = elegir_outfit(recomendaciones)
+    historial_nombres = {outfit_elegido["Name"]}
+
+    continuar = True
+
+    while continuar:
+        print(f"\n✅ Elegiste el outfit: {outfit_elegido['Name']}")
+        nuevos = manager.get_similar_recommendations(outfit_elegido["Name"], estilo_elegido, clima_mapeado, historial_nombres)
+
+        if not nuevos:
+            print("❌ No se encontraron más recomendaciones similares.")
+            break
+
+        combinados = [outfit_elegido] + nuevos[:2]
+        for i, outfit in enumerate(combinados, 1):
+            print(f"\n🔹 Outfit {i}:")
+            print(f"   - Nombre: {outfit['Name']}")
+            print(f"   - Superior: {outfit['Upper']}")
+            print(f"   - Inferior: {outfit['Lower']}")
+            print(f"   - Calzado: {outfit['Footwear']}")
+            print(f"   - Accesorio: {outfit['Accesory']}")
+            print(f"   - Imagen ID: {outfit['ID_Image']}")
+
+        seleccion = input("\n👉 ¿Deseas ver más recomendaciones similares? (s/n): ").strip().lower()
+        if seleccion == "s":
+            nuevo_elegido = elegir_outfit(combinados)
+            outfit_elegido = nuevo_elegido
+            historial_nombres.add(outfit_elegido["Name"])
+        else:
+            print("👗 ¡Gracias por usar el recomendador de outfits!")
+            continuar = False
+
     manager.close()
+
 
 if __name__ == "__main__":
     main()
