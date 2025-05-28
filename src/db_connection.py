@@ -24,4 +24,12 @@ class Neo4jApp:
             print(e)
 
     def close(self):
-        self.driver.close()
+        if self.driver:
+            self.driver.close()
+
+'''
+# Ejecutar conexión
+if __name__ == "__main__":
+    app = Neo4jApp(URI, USER, PASSWORD)
+    app.close()  
+'''

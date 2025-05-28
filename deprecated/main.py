@@ -1,3 +1,4 @@
+'''
 from models import UserManager
 
 def show_menu():
@@ -80,3 +81,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+'''
