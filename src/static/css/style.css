@@ -6,7 +6,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url('file:///C:/Users/Diana/OneDrive/Escritorio/CC2016-PROYECTO2/CC2016-PROYECTO2/src/templates/imagenes/fondo.png'); 
+    background-image: url('../images/fondo.png'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
