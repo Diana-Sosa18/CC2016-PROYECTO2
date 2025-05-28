@@ -2,36 +2,135 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Clima Actual</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pontelo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🌦️ Clima en tu ubicación</h1>
-    <p id="weather">Obteniendo ubicación...</p>
+    <div class="container" id="mainScreen">
+        <h1>Póntelo</h1>
+        <button id="loginBtn" class="btn">Iniciar Sesión</button>
+        <button id="registerBtn" class="btn">Registrarse</button>
+    </div>
 
-    <script>
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit" class="btn">Ingresar</button>
+            </form>
+        </div>
+    </div>
 
-                fetch(`/get_weather?lat=${lat}&lon=${lon}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById("weather").textContent = data;
-                        console.log("🌦️ Clima recibido:", data); // Mostrar en consola
-                    })
-                    .catch(error => {
-                        console.error("❌ Error al obtener el clima:", error);
-                        document.getElementById("weather").textContent = "Error al obtener el clima.";
-                    });
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Nombre*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <button type="submit" class="btn">Continuar</button>
+            </form>
+        </div>
+    </div>
 
-            }, function(error) {
-                console.error("⚠️ Error de geolocalización:", error);
-                document.getElementById("weather").textContent = "No se pudo acceder a tu ubicación.";
-            });
-        } else {
-            document.getElementById("weather").textContent = "Tu navegador no soporta geolocalización.";
-        }
-    </script>
+    <!-- Pantalla de Estilos -->
+    <div id="stylesScreen" class="hidden">
+        <button class="back-btn">←</button>
+        <h1>¿Qué estilo prefieres?</h1>
+        <div class="styles-grid">
+            <div class="style-option">Elegante</div>
+            <div class="style-option">Vintage</div>
+            <div class="style-option">Hipster</div>
+        </div>
+        <button id="confirmBtn" class="btn">Confirmar</button>
+    </div>
+
+    <!-- Pantalla de Ocasión -->
+    <div id="ocasionScreen" class="hidden">
+        <button class="back-btn">←</button>
+        <h1>¿Qué ocasión tienes hoy?</h1>
+        <div class="ocasion-options">
+            <div class="ocasion-option" data-ocasion="trabajo">
+                <span>Trabajo</span>
+            </div>
+            <div class="ocasion-option" data-ocasion="fiesta">
+                <span>Fiesta</span>
+            </div>
+            <div class="ocasion-option" data-ocasion="cotidiano">
+                <span>Día cotidiano</span>
+            </div>
+        </div>
+        <button id="finalizarBtn" class="btn">Finalizar</button>
+    </div>
+
+    <!-- Pantalla de Clima -->
+    <div id="climaScreen" class="hidden">
+        <button class="back-btn">←</button>
+        <h1>Calculando el clima de</h1>
+        <h2>Hoy</h2>
+        <div id="weatherResult">Obteniendo ubicación...</div>
+        <button id="continuarBtn" class="btn">Continuar</button>
+    </div>
+
+    <!-- Pantalla de Outfits -->
+    <div id="outfitsScreen" class="hidden">
+        <button class="back-btn">←</button>
+        <h1>Te recomendamos estos outfits</h1>
+        <div class="outfits-container">
+            <div class="outfits-row">
+                <div class="outfit-card">
+                    <img src="imagenes/outfit1.png" alt="Outfit Elegante" class="outfit-image">
+                    <div class="outfit-actions">
+                        <button class="btn like-btn">✓ Me gusta</button>
+                        <button class="btn more-btn">🔍 Ver similares</button>
+                    </div>
+                </div>
+                <div class="outfit-card">
+                    <img src="imagenes/outfit2.png" alt="Outfit Vintage" class="outfit-image">
+                    <div class="outfit-actions">
+                        <button class="btn like-btn">✓ Me gusta</button>
+                        <button class="btn more-btn">🔍 Ver similares</button>
+                    </div>
+                </div>
+                <div class="outfit-card">
+                    <img src="imagenes/outfit3.png" alt="Outfit Hipster" class="outfit-image">
+                    <div class="outfit-actions">
+                        <button class="btn like-btn">✓ Me gusta</button>
+                        <button class="btn more-btn">🔍 Ver similares</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Outfits Similares -->
+    <div id="similaresScreen" class="hidden">
+        <button class="back-btn">←</button>
+        <h1>Outfits similares</h1>
+        <div class="outfits-container">
+            <div class="outfits-row" id="similaresRow">
+                <!-- Los outfits similares se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Felicitaciones -->
+    <div id="congratsModal" class="modal">
+        <div class="modal-content">
+            <h2>¡Felicitaciones!</h2>
+            <p>Has escogido tu outfit perfecto.</p>
+            <button id="nuevoEstiloBtn" class="btn">Buscar otro estilo</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
