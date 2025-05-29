@@ -18,7 +18,7 @@ class Neo4jApp:
             with self.driver.session() as session:
                 result = session.run("RETURN 1")
                 if result.single()[0] == 1:
-                    print("✅ Conexión exitosa a la base de datos.")
+                    pass  # Conexión exitosa pero sin mensaje
         except Exception as e:
             print("❌ Error al conectar a Neo4j:")
             print(e)
