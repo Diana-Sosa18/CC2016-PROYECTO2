@@ -1,4 +1,7 @@
-from flask import Flask, render_template
+import sys
+import os
+import requests
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from neo4j import GraphDatabase
 from recommendation_manager import RecommendationManager
@@ -164,9 +167,6 @@ def main():
     manager.close()
     user_manager.close()
 
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    main()
