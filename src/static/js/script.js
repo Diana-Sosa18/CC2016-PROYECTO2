@@ -51,20 +51,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Manejar login
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-        if (!username.trim() || !password.trim()) {
-            alert('Por favor complete todos los campos');
-            return;
+    if (!username.trim() || !password.trim()) {
+        alert('Por favor complete todos los campos');
+        return;
+    }
+
+    try {
+        const res = await fetch('/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password})
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            loginModal.style.display = 'none';
+            mainScreen.style.display = 'none';
+            stylesScreen.style.display = 'block';
+        } else {
+            alert(data.message || 'Usuario o contraseña incorrectos');
         }
+    } catch (error) {
+        alert('Error en la conexión al servidor');
+    }
+});
 
-        loginModal.style.display = 'none';
-        mainScreen.style.display = 'none';
-        stylesScreen.style.display = 'block';
-    });
 
     // Manejar registro
     registerForm.addEventListener('submit', function(e) {
@@ -281,3 +297,41 @@ document.addEventListener('DOMContentLoaded', function() {
     setupOutfitSelection();
     setupBackButtons();
 });
+
+async function viewStyle(username) {
+    const res = await fetch('/style', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, action: 'view'})
+    });
+    const data = await res.json();
+    if (data.success) {
+        // Mostrar estilo en HTML
+    } else {
+        alert(data.message);
+    }
+}
+
+async function changeStyle(username, newStyle) {
+    const res = await fetch('/style', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, action: 'change', new_style: newStyle})
+    });
+    const data = await res.json();
+    if (data.success) {
+        alert("Estilo actualizado!");
+    } else {
+        alert(data.message);
+    }
+}
+
+async function getRecommendation(username) {
+    const res = await fetch('/recommend', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username})
+    });
+    const data = await res.json();
+    // Mostrar recomendación en HTML
+}
