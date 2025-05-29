@@ -16,35 +16,40 @@ class RecommendationManager:
     def __init__(self, driver):
         self.driver = driver
 
-    def get_recommendations(self, estilo, clima):
+    def get_recommendations(self, estilo, clima, ocasion):
         query = """
         MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style {Name: $estilo}),
-            (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima})
+              (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima}),
+              (o)-[:ADECUADO_PARA_OCASION]->(oc:Occasion {Name: $ocasion})
         RETURN o.Name AS Name, o.ID_Image AS ID_Image, o.Upper AS Upper, 
-            o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
-        LIMIT 5
-        """
-        with self.driver.session() as session:
-            result = session.run(query, {
-                "estilo": estilo,
-                "clima": clima
-            })
-            return [dict(row) for row in result]
-
-    def get_similar_recommendations(self, nombre_outfit, estilo, clima, excluidos):
-        query = """
-        MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style),
-            (o)-[:ADEQUADO_PARA]->(c:Climate)
-        WHERE s.Name = $estilo AND c.Name = $clima AND NOT o.Name IN $excluidos
-        RETURN o.Name AS Name, o.Upper AS Upper, o.Lower AS Lower, 
-            o.Footwear AS Footwear, o.Accesory AS Accesory, 
-            o.ID_Image AS ID_Image
+               o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
         LIMIT 5
         """
         with self.driver.session() as session:
             result = session.run(query, {
                 "estilo": estilo,
                 "clima": clima,
+                "ocasion": ocasion
+            })
+            return [dict(row) for row in result]
+
+    def get_similar_recommendations(self, nombre_outfit, estilo, clima, ocasion, excluidos):
+        query = """
+        MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style),
+              (o)-[:ADEQUADO_PARA]->(c:Climate),
+              (o)-[:ADECUADO_PARA_OCASION]->(oc:Occasion)
+        WHERE s.Name = $estilo AND c.Name = $clima AND oc.Name = $ocasion
+              AND NOT o.Name IN $excluidos
+        RETURN o.Name AS Name, o.Upper AS Upper, o.Lower AS Lower, 
+               o.Footwear AS Footwear, o.Accesory AS Accesory, 
+               o.ID_Image AS ID_Image
+        LIMIT 5
+        """
+        with self.driver.session() as session:
+            result = session.run(query, {
+                "estilo": estilo,
+                "clima": clima,
+                "ocasion": ocasion,
                 "excluidos": list(excluidos)
             })
             return [record.data() for record in result]

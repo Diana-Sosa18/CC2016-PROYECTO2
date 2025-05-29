@@ -10,14 +10,14 @@ load_dotenv()
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-manager = UserManager()
+user_manager = UserManager()
 
-neo4j = Neo4jApp(
+neo4j_driver  = Neo4jApp(
     uri=os.getenv("NEO4J_URI"),
     user=os.getenv("NEO4J_USER"),
     password=os.getenv("NEO4J_PASSWORD")
 )
-recommender = RecommendationManager(neo4j.driver)
+recommendation_manager = RecommendationManager(neo4j_driver )
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -28,7 +28,7 @@ def register():
     if not username or not password:
         return jsonify({"success": False, "message": "Faltan datos"}), 400
 
-    success, message = manager.register_user(username, password)
+    success, message = user_manager.register_user(username, password)
     return jsonify({"success": success, "message": message})
 
 @app.route('/login', methods=['POST'])
@@ -37,7 +37,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    if not manager.login(username, password):
+    if not user_manager.login(username, password):
         return jsonify({"success": False, "message": "Usuario o contraseña incorrectos"}), 401
     return jsonify({"success": True, "message": "Inicio de sesión exitoso"}), 200
 
@@ -51,7 +51,7 @@ def estilos():
 
 @app.teardown_appcontext
 def close_neo4j(exception):
-    neo4j.close()
+    neo4j_driver.close()
 
 @app.route('/api/weather')
 def get_weather():
@@ -78,12 +78,15 @@ def recommend():
     data = request.get_json()
     estilo = data.get("estilo")
     clima = data.get("clima")
+    ocasion = data.get('ocasion')
 
-    if not estilo or not clima:
+    if not estilo or not clima or not ocasion:
         return jsonify({"success": False, "message": "Faltan datos"}), 400
 
-    outfits = recommender.get_recommendations(estilo, clima)
-    return jsonify({"success": True, "recommendations": outfits})
+    outfits = recommendation_manager.get_recommendations(estilo, clima, ocasion)
+
+    print(outfits)
+    return jsonify(outfits)
 
 if __name__ == "__main__":
     app.run(debug=True)

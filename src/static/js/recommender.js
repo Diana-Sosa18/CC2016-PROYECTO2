@@ -2,6 +2,15 @@ let selectedStyle = "";
 let selectedOcasion = "";
 let detectedClima = "";
 
+document.getElementById('continuarBtn').addEventListener('click', () => {
+    const estilo = getSelectedEstilo();   // función que obtenga el estilo seleccionado
+    const clima = getSelectedClima();     // función que obtenga el clima
+    const ocasion = getSelectedOcasión(); // función que obtenga la ocasión
+
+    fetchOutfits(estilo, clima, ocasion);
+});
+
+
 // Estilo → Ocasion
 document.querySelectorAll(".style-option").forEach(option => {
     option.addEventListener("click", () => {
@@ -29,30 +38,12 @@ document.querySelectorAll(".ocasion-option").forEach(option => {
 });
 
 // Clima → Recomendaciones
-document.getElementById("continuarBtn").addEventListener("click", () => {
-    const payload = {
-        estilo: selectedStyle,
-        clima: detectedClima,
-        ocasion: selectedOcasion
-    };
-
-    fetch("/recommend", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("🎯 Recomendaciones:", data);
-    });
-});
-
-
 function mostrarRecomendaciones(outfits) {
     const outfitsGrid = document.querySelector(".outfits-grid");
     outfitsGrid.innerHTML = ""; // Limpiar recomendaciones anteriores
 
     outfits.forEach((outfit, index) => {
+        console.log(`Cargando imagen: /static/images/oufits/${outfit.ID_Image}.png`); 
         const card = document.createElement("div");
         card.className = "outfit-card";
         card.dataset.outfit = index;
@@ -90,6 +81,7 @@ document.getElementById("continuarBtn").addEventListener("click", () => {
     .then(res => res.json())
     .then(data => {
         console.log("🎯 Recomendaciones recibidas:", data);
+        
         mostrarRecomendaciones(data);
     });
 });
