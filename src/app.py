@@ -89,7 +89,7 @@ def main():
     
     print("👋 ¡Bienvenido al recomendador de outfits!\n")
     user_manager = UserManager()
-    '''
+
     while True:
         print("1. Iniciar sesión")
         print("2. Registrarse")
@@ -117,7 +117,7 @@ def main():
             return
         else:
             print("❌ Opción no válida. Intenta de nuevo.")
-    '''
+
     # Conectar con Neo4j
     driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
     manager = RecommendationManager(driver)
