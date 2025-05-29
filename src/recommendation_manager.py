@@ -16,10 +16,11 @@ class RecommendationManager:
     def __init__(self, driver):
         self.driver = driver
 
-    def get_recommendations(self, estilo, clima):
+    def get_recommendations(self, estilo, clima, ocasion):
         query = """
         MATCH (o:Outfit)-[:PERTENECE_A]->(s:Style {Name: $estilo}),
-            (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima})
+            (o)-[:ADEQUADO_PARA]->(c:Climate {Name: $clima}),
+            (o)-[:ADECUADO_PARA_OCASION]->(oc:Occasion {Name: $ocasion})
         RETURN o.Name AS Name, o.ID_Image AS ID_Image, o.Upper AS Upper, 
             o.Lower AS Lower, o.Footwear AS Footwear, o.Accesory AS Accesory
         LIMIT 5
@@ -27,7 +28,8 @@ class RecommendationManager:
         with self.driver.session() as session:
             result = session.run(query, {
                 "estilo": estilo,
-                "clima": clima
+                "clima": clima,
+                "ocasion": ocasion
             })
             return [dict(row) for row in result]
 
