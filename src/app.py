@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from neo4j import GraphDatabase
 from recommendation_manager import RecommendationManager
 from db_connection import URI, USER, PASSWORD
+from models import UserManager
 
 def obtener_clima_actual():
     try:
@@ -70,68 +71,101 @@ def obtener_estilo_clima_de_outfit(manager, nombre_outfit):
         return None, None
 
 def main():
-    estilos_disponibles = ["Hipster", "Elegante", "Vintage"]
-    print("🎨 ¿Qué estilo prefieres hoy?")
-    for idx, estilo in enumerate(estilos_disponibles, 1):
-        print(f"{idx}. {estilo}")
-    
+    from models import UserManager
+
+    print("👋 ¡Bienvenido al recomendador de outfits!\n")
+    user_manager = UserManager()
+
     while True:
-        opcion = input("Selecciona una opción (1-3): ")
-        if opcion in ["1", "2", "3"]:
-            estilo_elegido = estilos_disponibles[int(opcion) - 1]
-            break
+        print("1. Iniciar sesión")
+        print("2. Registrarse")
+        print("3. Salir")
+        opcion = input("Selecciona una opción (1, 2 o 3): ")
+
+        if opcion == "1":
+            username = input("Nombre de usuario: ")
+            password = input("Contraseña: ")
+            if user_manager.login(username, password):
+                print(f"✅ ¡Bienvenido de nuevo, {username}!")
+                break
+            else:
+                print("❌ Nombre de usuario o contraseña incorrectos.")
+        elif opcion == "2":
+            username = input("Elige un nombre de usuario: ")
+            password = input("Crea una contraseña: ")
+            success, mensaje = user_manager.register_user(username, password)
+            print("✅ " + mensaje if success else "❌ " + mensaje)
+            if success:
+                break
+        elif opcion == "3":
+            print("👋 ¡Hasta pronto!")
+            user_manager.close()
+            return
         else:
             print("❌ Opción no válida. Intenta de nuevo.")
 
-    temperatura, descripcion = obtener_clima_actual()
-    clima_mapeado = mapear_clima(temperatura, descripcion)
-
-    print(f"\n☀️ Clima detectado: {temperatura}°C - {descripcion}")
-    print(f"🗺️  Clima mapeado en base de datos: {clima_mapeado}")
-
-    # Conectar con Neo4j
+    # Conectar con Neo4j una vez
     driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
     manager = RecommendationManager(driver)
 
-    # Primera ronda de recomendaciones
-    recomendaciones = mostrar_recomendaciones(estilo_elegido, clima_mapeado, manager)
-    if not recomendaciones:
-        manager.close()
-        return
+    while True:
+        estilos_disponibles = ["Hipster", "Elegante", "Vintage"]
+        print("\n🎨 ¿Qué estilo prefieres hoy?")
+        for idx, estilo in enumerate(estilos_disponibles, 1):
+            print(f"{idx}. {estilo}")
+        
+        while True:
+            opcion = input("Selecciona una opción (1-3): ")
+            if opcion in ["1", "2", "3"]:
+                estilo_elegido = estilos_disponibles[int(opcion) - 1]
+                break
+            else:
+                print("❌ Opción no válida. Intenta de nuevo.")
 
-    outfit_elegido = elegir_outfit(recomendaciones)
-    historial_nombres = {outfit_elegido["Name"]}
+        temperatura, descripcion = obtener_clima_actual()
+        clima_mapeado = mapear_clima(temperatura, descripcion)
 
-    continuar = True
+        print(f"\n☀️ Clima detectado: {temperatura}°C - {descripcion}")
+        print(f"🗺️  Clima mapeado en base de datos: {clima_mapeado}")
 
-    while continuar:
-        print(f"\n✅ Elegiste el outfit: {outfit_elegido['Name']}")
-        nuevos = manager.get_similar_recommendations(outfit_elegido["Name"], estilo_elegido, clima_mapeado, historial_nombres)
+        recomendaciones = mostrar_recomendaciones(estilo_elegido, clima_mapeado, manager)
+        if not recomendaciones:
+            continue  # Regresa a elegir estilo
 
-        if not nuevos:
-            print("❌ No se encontraron más recomendaciones similares.")
-            break
+        outfit_elegido = elegir_outfit(recomendaciones)
+        historial_nombres = {outfit_elegido["Name"]}
 
-        combinados = [outfit_elegido] + nuevos[:2]
-        for i, outfit in enumerate(combinados, 1):
-            print(f"\n🔹 Outfit {i}:")
-            print(f"   - Nombre: {outfit['Name']}")
-            print(f"   - Superior: {outfit['Upper']}")
-            print(f"   - Inferior: {outfit['Lower']}")
-            print(f"   - Calzado: {outfit['Footwear']}")
-            print(f"   - Accesorio: {outfit['Accesory']}")
-            print(f"   - Imagen ID: {outfit['ID_Image']}")
+        while True:
+            print(f"\n✅ Elegiste el outfit: {outfit_elegido['Name']}")
+            seleccion = input("\n👉 ¿Deseas ver más recomendaciones similares? (s/n): ").strip().lower()
+            if seleccion != "s":
+                print("\n🎉 ¡Felicidades! Tu outfit ideal es:")
+                print(f"   - Nombre: {outfit_elegido['Name']}")
+                print(f"   - Superior: {outfit_elegido['Upper']}")
+                print(f"   - Inferior: {outfit_elegido['Lower']}")
+                print(f"   - Calzado: {outfit_elegido['Footwear']}")
+                print(f"   - Accesorio: {outfit_elegido['Accesory']}")
+                print(f"   - Imagen ID: {outfit_elegido['ID_Image']}")
+                break  # Regresa a seleccionar estilo
 
-        seleccion = input("\n👉 ¿Deseas ver más recomendaciones similares? (s/n): ").strip().lower()
-        if seleccion == "s":
-            nuevo_elegido = elegir_outfit(combinados)
-            outfit_elegido = nuevo_elegido
+            nuevos = manager.get_similar_recommendations(
+                outfit_elegido["Name"], estilo_elegido, clima_mapeado, historial_nombres)
+
+            if not nuevos:
+                print("❌ No se encontraron más recomendaciones similares.")
+                break  # Regresa a seleccionar estilo
+
+            combinados = [outfit_elegido] + nuevos[:2]
+            for i, outfit in enumerate(combinados, 1):
+                print(f"\n🔹 Outfit {i}:")
+                print(f"   - Nombre: {outfit['Name']}")
+                print(f"   - Imagen ID: {outfit['ID_Image']}")
+
+            outfit_elegido = elegir_outfit(combinados)
             historial_nombres.add(outfit_elegido["Name"])
-        else:
-            print("👗 ¡Gracias por usar el recomendador de outfits!")
-            continuar = False
 
     manager.close()
+    user_manager.close()
 
 
 if __name__ == "__main__":
