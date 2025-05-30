@@ -63,3 +63,13 @@ Para iniciar el programa, ejecuta:
 ```bash
 python app.py
 ```
+
+### Flujo de uso
+
+1. El sistema solicita registro o inicio de sesión.  
+2. Tras autenticarse, el usuario selecciona su estilo preferido (Hipster, Elegante, Vintage).  
+3. Se obtiene automáticamente el clima actual para ajustar las recomendaciones.  
+4. El usuario selecciona la ocasión (fiesta, universidad o trabajo).  
+5. Se muestran outfits recomendados según las opciones seleccionadas.  
+6. El usuario elige su outfit favorito y puede pedir recomendaciones similares.  
+7. Puede repetir la selección de estilo para nuevas recomendaciones o salir del programa.
