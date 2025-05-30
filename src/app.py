@@ -4,8 +4,7 @@
 Sistema inteligente que recomienda outfits basado en:
 - Estilo personal preferido
 - Ocasión especial
-- Clima actual de Ciudad de Guatemala
-- Preferencias almacenadas en Neo4j
+- Clima actual 
 """
 
 import sys
@@ -22,7 +21,7 @@ from db_connection import URI, USER, PASSWORD
 from models import UserManager
 
 def obtener_clima_actual():
-    """Obtiene la temperatura actual para Ciudad de Guatemala"""
+    """Obtiene la temperatura actual"""
     try:
         headers = {'User-Agent': 'Mozilla/5.0'}
         url = "https://wttr.in/Ciudad+de+Guatemala?format=%t"
@@ -46,13 +45,13 @@ def obtener_clima_actual():
 def mapear_clima(temperatura):
     """Mapea la temperatura a categorías de clima"""
     if temperatura >= 28:
-        return "🔥 Calor Tropical"
+        return "Calor Tropical"
     elif temperatura >= 23:
-        return "☀️ Soleado cálido"
+        return "Soleado cálido"
     elif temperatura >= 16:
-        return "🌤️ Templado"
+        return "Templado"
     else:
-        return "❄️ Frío"
+        return "Frío"
 
 def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
     """Muestra recomendaciones y maneja la selección del usuario"""
@@ -94,9 +93,9 @@ def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
 
 def main():
     print(Fore.CYAN + Style.BRIGHT + "="*50)
-    print(Fore.YELLOW + "✨  RECOMENDADOR DE OUTFITS - GUATEMALA  👗")
+    print(Fore.YELLOW + "✨  PÓNTELO!  👗")
     print(Fore.CYAN + "="*50)
-    print(Fore.WHITE + "👋 ¡Bienvenido al recomendador de outfits para Guatemala!\n")
+    print(Fore.WHITE + "👋 ¡Bienvenid@!\n")
     
     user_manager = UserManager()
     driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
