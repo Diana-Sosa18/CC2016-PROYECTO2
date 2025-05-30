@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ✨ RECOMENDADOR DE OUTFITS PARA GUATEMALA ✨
@@ -14,9 +12,8 @@ import sys
 import os
 import requests
 from colorama import init, Fore, Back, Style
-init(autoreset=True)  # Initialize colorama
+init(autoreset=True)  
 
-# Configure path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from neo4j import GraphDatabase
@@ -24,7 +21,6 @@ from recommendation_manager import RecommendationManager
 from db_connection import URI, USER, PASSWORD
 from models import UserManager
 
-# 🌤️ WEATHER FUNCTIONS 🌤️
 def obtener_clima_actual():
     """Obtiene la temperatura actual para Ciudad de Guatemala"""
     try:
@@ -58,13 +54,11 @@ def mapear_clima(temperatura):
     else:
         return "❄️ Frío"
 
-# 👗 RECOMMENDATION FUNCTIONS 👗
 def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
     """Muestra recomendaciones y maneja la selección del usuario"""
     historial_outfits = set()
     
     while True:
-        # Get new recommendations (excluding already shown)
         nuevos_outfits = [
             o for o in manager.get_recommendations(estilo, clima, ocasion)
             if o['Name'] not in historial_outfits
@@ -74,7 +68,6 @@ def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
             print(Fore.RED + "\n❌ No hay más outfits disponibles con estos filtros.")
             return None
 
-        # Display recommendations
         print(Fore.CYAN + Style.BRIGHT + f"\n👕 Outfits recomendados para:")
         print(Fore.MAGENTA + f"   Estilo: {estilo}")
         print(Fore.GREEN + f"   Ocasión: {ocasion}")
@@ -87,7 +80,6 @@ def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
             print(Fore.WHITE + f"   - 👟 Calzado: {o['Footwear']}")
             historial_outfits.add(o['Name'])
 
-        # User selection
         while True:
             seleccion = input(Fore.MAGENTA + "\n👉 Elige un outfit (1-3), 'm' para más opciones o 's' para salir: ").strip().lower()
             
@@ -100,21 +92,17 @@ def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
             else:
                 print(Fore.RED + "❌ Opción no válida. Intenta nuevamente.")
 
-# 🎯 MAIN FUNCTION 🎯
 def main():
-    # Welcome message
     print(Fore.CYAN + Style.BRIGHT + "="*50)
     print(Fore.YELLOW + "✨  RECOMENDADOR DE OUTFITS - GUATEMALA  👗")
     print(Fore.CYAN + "="*50)
     print(Fore.WHITE + "👋 ¡Bienvenido al recomendador de outfits para Guatemala!\n")
     
-    # Setup services
     user_manager = UserManager()
     driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
     manager = RecommendationManager(driver)
 
     try:
-        # --- AUTHENTICATION ---
         while True:
             print(Fore.GREEN + Style.BRIGHT + "\n🔐 MENÚ DE AUTENTICACIÓN")
             print(Fore.CYAN + "1. 🔑 Iniciar sesión")
@@ -142,9 +130,7 @@ def main():
             else:
                 print(Fore.RED + "\n❌ Opción no válida.")
 
-        # --- MAIN LOOP ---
         while True:
-            # --- STYLE SELECTION ---
             print(Fore.CYAN + Style.BRIGHT + "\n🎨 ¿Qué estilo de outfit prefieres?")
             estilos = ["🎨 Hipster", "👔 Elegante", "🕰️ Vintage"]
             for i, estilo in enumerate(estilos, 1):
@@ -156,8 +142,7 @@ def main():
                     estilo = estilos[int(opcion)-1].split()[1]  # Remove emoji
                     break
                 print(Fore.RED + "❌ Opción no válida.")
-
-            # --- OCCASION SELECTION --- 
+ 
             print(Fore.CYAN + Style.BRIGHT + "\n🎉 ¿Para qué ocasión es el outfit?")
             ocasiones = ["💼 Trabajo", "🎓 Universidad", "🎉 Fiesta"]
             for i, ocasion in enumerate(ocasiones, 1):
@@ -170,14 +155,12 @@ def main():
                     break
                 print(Fore.RED + "❌ Opción no válida.")
 
-            # --- GET WEATHER ---
             temperatura = obtener_clima_actual()
             clima = mapear_clima(temperatura)
             print(Fore.CYAN + "\n📍 Ubicación: Ciudad de Guatemala")
             print(Fore.CYAN + f"🌡️  Temperatura actual: {Fore.YELLOW}{temperatura}°C")
             print(Fore.CYAN + f"☀️  Clima categorizado: {Fore.GREEN}{clima}")
 
-            # --- GENERATE RECOMMENDATIONS ---
             outfit_elegido = mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima.split()[-1])
             
             if outfit_elegido:
