@@ -152,7 +152,7 @@ def main():
             while True:
                 opcion = input(Fore.MAGENTA + "\n👉 Elige un estilo (1-3): ").strip()
                 if opcion in {"1", "2", "3"}:
-                    estilo = estilos[int(opcion)-1].split()[1]  # Remove emoji
+                    estilo = estilos[int(opcion)-1].split()[1]  
                     break
                 print(Fore.RED + "❌ Opción no válida.")
 
@@ -174,7 +174,7 @@ def main():
             clima = mapear_clima(temperatura)
             print(Fore.CYAN + "\n📍 Ubicación: Ciudad de Guatemala")
             print(Fore.CYAN + f"🌡️  Temperatura actual: {Fore.YELLOW}{temperatura}°C")
-            print(Fore.CYAN + f"☀️  Clima categorizado: {Fore.GREEN}{clima}")
+            print(Fore.CYAN + f"☀️  Clima: {Fore.GREEN}{clima}")
 
             # --- GENERATE RECOMMENDATIONS ---
             outfit_elegido = mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima.split()[-1])
