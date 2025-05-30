@@ -103,7 +103,6 @@ def mapear_clima(temperatura):
     else:
         return "Frío"
 
-# 👗 RECOMMENDATION FUNCTIONS 👗
 def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
     """Muestra recomendaciones y maneja la selección del usuario"""
     historial_outfits = set()
@@ -144,7 +143,6 @@ def mostrar_recomendaciones_y_seleccionar(manager, estilo, ocasion, clima):
             else:
                 print(Fore.RED + "❌ Opción no válida. Intenta nuevamente.")
 
-# 🎯 MAIN FUNCTION 🎯
 def main():
     print(Fore.CYAN + Style.BRIGHT + "="*50)
     print(Fore.YELLOW + "✨  PÓNTELO!  👗")
@@ -195,7 +193,6 @@ def main():
                     estilo = estilos[int(opcion)-1].split()[1]  
                     break
                 print(Fore.RED + "❌ Opción no válida.")
-
             print(Fore.CYAN + Style.BRIGHT + "\n🎉 ¿Para qué ocasión es el outfit?")
             ocasiones = ["💼 Trabajo", "🎓 Universidad", "🎉 Fiesta"]
             for i, ocasion in enumerate(ocasiones, 1):
