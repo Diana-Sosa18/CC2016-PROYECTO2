@@ -48,6 +48,7 @@ pip install neo4j
 pip install bcrypt
 pip install requests
 pip install python-dotenv
+pip install matplotlib
 ```
 
 ### 3. Configurar Neo4j
